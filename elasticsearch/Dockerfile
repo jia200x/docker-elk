@@ -16,5 +16,6 @@ RUN elasticsearch-plugin install --batch com.floragunn:search-guard-6:${SG_VERSI
 	&& chown -R elasticsearch config/sg/ \
 	&& chmod -R go= config/sg/
 
+CMD ["entry.sh"]
 # Add your elasticsearch plugins setup here
 # Example: RUN elasticsearch-plugin install analysis-icu
