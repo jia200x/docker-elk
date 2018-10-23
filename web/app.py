@@ -18,7 +18,7 @@ def __get_gh_user(token):
         ret = None
     return ret
 
-@app.route('/', methods=['POST'])
+@app.route('/post/', methods=['POST'])
 def auth():
     content = r.get_json(silent=False)
 
