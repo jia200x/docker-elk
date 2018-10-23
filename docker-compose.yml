@@ -9,6 +9,7 @@ services:
         ELK_VERSION: $ELK_VERSION
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - es:/usr/share/elasticsearch/data
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
@@ -50,7 +51,21 @@ services:
     networks:
       - elk
 
-networks:
+  nginx:
+    build: 
+        context: nginx/
+        dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - kibana
+      - web
+    networks:
+      - elk
 
+networks:
   elk:
     driver: bridge
+
+volumes:
+    es:
