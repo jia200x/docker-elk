@@ -10,6 +10,7 @@ services:
         SG_VERSION: $SG_VERSION
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./config/sg_internal_users.yml:/usr/share/elasticsearch/config/sg/sg_internal_users.yml:ro
       - es:/usr/share/elasticsearch/data
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
@@ -23,7 +24,7 @@ services:
         ELK_VERSION: $ELK_VERSION
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
@@ -39,8 +40,7 @@ services:
         SG_VERSION_KIBANA: $SG_VERSION_KIBANA
     volumes:
       - ./kibana/config/:/usr/share/kibana/config:ro
-    ports:
-      - "5601:5601"
+      - ./config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     networks:
       - elk
     depends_on:
@@ -48,8 +48,6 @@ services:
 
   web:
     build: web/
-    ports:
-     - "8000:5000"
     networks:
       - elk
 
